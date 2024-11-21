@@ -1,0 +1,40 @@
+<resources>
+    <!-- Base application theme. -->
+    <style name="Base.Theme.MvvmRoomdatabaseDaggerhiltPractice" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+<!--        <item name="colorPrimary">@color/red</item>-->
+<!--        <item name="colorPrimaryVariant">@color/red</item>-->
+    </style>
+
+    <style name="Theme.MvvmRoomdatabaseDaggerhiltPractice" parent="Base.Theme.MvvmRoomdatabaseDaggerhiltPractice" />
+
+    <declare-styleable name="NeumorphShapeAppearance">
+        <attr format="dimension" name="neumorph_cornerSize"/>
+        <attr format="dimension" name="neumorph_cornerSizeTopLeft"/>
+        <attr format="dimension" name="neumorph_cornerSizeTopRight"/>
+        <attr format="dimension" name="neumorph_cornerSizeBottomLeft"/>
+        <attr format="dimension" name="neumorph_cornerSizeBottomRight"/>
+    </declare-styleable>
+
+
+    <attr format="enum" name="neumorph_cornerFamily">
+        <enum name="rounded" value="0"/>
+        <enum name="oval" value="1"/>
+    </attr>
+
+    <style name="ShapeAppearance.Neumorph.FloatingActionButton" parent="">
+        <item name="neumorph_cornerFamily">oval</item>
+        <item name="neumorph_cornerSize">0dp</item>
+    </style>
+
+    <style name="fabStyle" parent="ShapeAppearance.Neumorph.FloatingActionButton">
+        <item name="android:layout_gravity">bottom|end</item>
+        <item name="android:layout_margin">@dimen/_12sdp</item>
+        <item name="fabSize">mini</item>
+        <item name="backgroundTint">@color/colorPrimary</item>
+        <item name="android:src">@drawable/ic_arrow_up_forward</item>
+        <item name="tint">@color/white</item>
+    </style>
+
+
+</resources>

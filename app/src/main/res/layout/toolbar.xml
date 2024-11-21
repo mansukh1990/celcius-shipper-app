@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/tool_bar"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_toolbar"
+    android:fitsSystemWindows="true"
+    android:minHeight="?attr/actionBarSize"
+    android:textAlignment="center">
+
+    <ImageView
+        android:id="@+id/ivBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_5sdp"
+        android:layout_marginEnd="@dimen/_5sdp"
+        android:padding="@dimen/_2sdp"
+        android:src="@drawable/ic_back_wid"
+        app:layout_constraintBottom_toBottomOf="@id/tool_bar"
+        app:layout_constraintEnd_toStartOf="@id/txt_name"
+        app:layout_constraintStart_toStartOf="@id/tool_bar"
+        app:layout_constraintTop_toTopOf="@id/tool_bar"
+        app:layout_goneMarginEnd="@dimen/_5sdp" />
+
+    <TextView
+        android:id="@+id/txt_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:fontFamily="@font/mont_bold"
+        android:gravity="center_vertical"
+        android:maxLines="1"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_14ssp"
+        app:layout_constraintBottom_toBottomOf="@id/ivBack"
+        app:layout_constraintEnd_toEndOf="@id/tool_bar"
+        app:layout_constraintStart_toEndOf="@id/ivBack"
+        app:layout_constraintTop_toTopOf="@id/ivBack" />
+
+</androidx.appcompat.widget.Toolbar>
