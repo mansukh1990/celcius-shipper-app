@@ -1,9 +1,9 @@
 package com.example.mvvmroomdatabasedaggerhiltpractice.models.responses.orderresponse
 
 data class OrderResponse(
-    val `data`: List<Order>,
+    var `data`: ArrayList<Order>,
     val paginate: Paginate,
     val response: String,
-    val responseCode: Int,
+    val responseCode: String,
     val status: String
 )

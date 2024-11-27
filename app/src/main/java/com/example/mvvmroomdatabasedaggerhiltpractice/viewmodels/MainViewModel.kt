@@ -5,13 +5,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.mvvmroomdatabasedaggerhiltpractice.models.requests.LoginRequest
 import com.example.mvvmroomdatabasedaggerhiltpractice.models.requests.OrderRequest
 import com.example.mvvmroomdatabasedaggerhiltpractice.models.responses.LoginResponse
 import com.example.mvvmroomdatabasedaggerhiltpractice.models.responses.orderresponse.OrderResponse
 import com.example.mvvmroomdatabasedaggerhiltpractice.networking.Resource
 import com.example.mvvmroomdatabasedaggerhiltpractice.repository.MainRepository
 import com.example.mvvmroomdatabasedaggerhiltpractice.utils.SharedPrefManager
+import com.example.mvvmroomdatabasedaggerhiltpractice.utils.Util.emptyString
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -25,18 +25,25 @@ class MainViewModel @Inject constructor(
     private val _loginResponse = MutableLiveData<Resource<LoginResponse>>()
     val loginResponse: LiveData<Resource<LoginResponse>> get() = _loginResponse
 
-    fun loginUser(email: String, password: String) {
+    fun loginUser(email: String, password: String, appVersion: String) {
         viewModelScope.launch {
-            _loginResponse.value = Resource.Loading()
+            try {
+                _loginResponse.value = Resource.Loading()
 
-            val result = repository.loginUser(LoginRequest(email, password, "37"))
-            if (result is Resource.Success) {
-                sharedPrefManager.saveToken(result.data!!.data!!.token!!)
-                Log.e("token", result.data.data!!.token!!)
-                sharedPrefManager.getToken()?.let { Log.e("token", it) }
+                val result = repository.loginUser(email, password, appVersion)
+                if (result is Resource.Success) {
+                    sharedPrefManager.saveToken(result.data!!.data!!.token!!)
+                    Log.e("token", result.data.data!!.token!!)
+                    sharedPrefManager.getToken()?.let { Log.e("token", it) }
+                    _loginResponse.value = result
+                } else {
+                    _loginResponse.postValue(Resource.Failure((result.message.toString())))
+                }
+
+
+            } catch (e: Exception) {
+                _loginResponse.postValue(Resource.Failure(e.message.toString()))
             }
-            _loginResponse.value = result
-            _loginResponse.value = Resource.Failure(result.message.toString())
         }
     }
 
@@ -44,6 +51,12 @@ class MainViewModel @Inject constructor(
 
     private val _orders = MutableLiveData<Resource<OrderResponse>>()
     val orders: LiveData<Resource<OrderResponse>> get() = _orders
+
+    var apiName = emptyString()
+    var baseUrl = emptyString()
+
+    private var limit = "10"
+    var isFirstPage = true
 
     fun fetchOrders(
         orderRequest: OrderRequest
@@ -54,7 +67,9 @@ class MainViewModel @Inject constructor(
             val token = sharedPrefManager.getToken()
             Log.e("ordertoken", "fetchOrders: ${token.toString()}")
             val response = repository.getOrders(orderRequest = orderRequest)
-            _orders.value = Resource.Success(response.data!!)
+            if (response is Resource.Success) {
+                _orders.postValue(response)
+            }
             _orders.value = Resource.Failure(response.message.toString())
 
         }

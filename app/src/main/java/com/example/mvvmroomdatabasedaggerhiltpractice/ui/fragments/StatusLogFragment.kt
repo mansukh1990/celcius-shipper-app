@@ -154,7 +154,7 @@ class StatusLogFragment : BaseFragment<FragmentStatusLogBinding>(
             ),
             StatusLogModel(
                 "Punit Sonagra - Worker",
-                Status.RETURNCOMPLETED,
+                Status.ReturnCompleted,
                 "21/08/2024 16:13:43",
                 "N/A",
                 false

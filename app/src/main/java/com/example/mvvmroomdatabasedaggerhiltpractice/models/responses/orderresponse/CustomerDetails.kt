@@ -3,5 +3,5 @@ package com.example.mvvmroomdatabasedaggerhiltpractice.models.responses.orderres
 data class CustomerDetails(
     val address: String,
     val company_name: String,
-    val id: Int
+    val id: String
 )

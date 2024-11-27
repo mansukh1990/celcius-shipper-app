@@ -15,9 +15,13 @@ class MainRepository @Inject constructor(
     private val sharedPrefManager: SharedPrefManager
 ) : GenericApiResponse() {
 
-    suspend fun loginUser(loginRequest: LoginRequest): Resource<LoginResponse> {
+    suspend fun loginUser(
+        email: String,
+        password: String,
+        appVersion: String
+    ): Resource<LoginResponse> {
         return safeApiCall {
-            apiService.loginUser(loginRequest)
+            apiService.loginUser(LoginRequest(email, password, appVersion))
         }
     }
 
@@ -25,7 +29,7 @@ class MainRepository @Inject constructor(
 
 
     suspend fun getOrders(orderRequest: OrderRequest): Resource<OrderResponse> {
-        return safeApiCall { apiService.getOrders(orderRequest) }
+        return safeApiCall { apiService.getOrders(orderRequest = orderRequest) }
 
     }
 

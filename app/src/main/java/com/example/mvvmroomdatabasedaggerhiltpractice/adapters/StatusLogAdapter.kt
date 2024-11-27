@@ -191,7 +191,7 @@ class StatusLogAdapter(private val statusLogList: List<StatusLogModel>) :
                     binding.txtStatusByValue.text = "Punit Sonagra - Worker"
                 }
 
-                Status.RETURNCOMPLETED -> {
+                Status.ReturnCompleted -> {
                     binding.txtStatus.text = ContextCompat.getString(binding.root.context, R.string.str_return_completed)
                     binding.txtStatus.setTextColor(ContextCompat.getColor(binding.root.context, R.color.clr_text_return))
                     binding.txtStatus.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_return, 0, 0, 0)

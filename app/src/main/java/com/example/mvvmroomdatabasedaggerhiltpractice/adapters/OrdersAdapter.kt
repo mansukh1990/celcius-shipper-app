@@ -6,11 +6,12 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mvvmroomdatabasedaggerhiltpractice.R
 import com.example.mvvmroomdatabasedaggerhiltpractice.databinding.ItemLayoutWarehouseOrdersBinding
-import com.example.mvvmroomdatabasedaggerhiltpractice.models.Status
+import com.example.mvvmroomdatabasedaggerhiltpractice.enums.StatusType
 import com.example.mvvmroomdatabasedaggerhiltpractice.models.responses.orderresponse.Order
+import com.example.mvvmroomdatabasedaggerhiltpractice.models.responses.orderresponse.OrderStatus
 
 class OrdersAdapter(
-    private val orders: MutableList<Order>,
+    private var orders: ArrayList<Order>,
     private val onEditClick: (Order) -> Unit,
     private val onViewClick: (Order) -> Unit
 ) : RecyclerView.Adapter<OrdersAdapter.OrderViewHolder>() {
@@ -30,8 +31,12 @@ class OrdersAdapter(
         holder.bind(orders[position])
     }
 
-    fun updateOrders(newOrders: List<Order>) {
+    fun updateOrders(newOrders: ArrayList<Order>) {
         orders.addAll(newOrders)
+        notifyDataSetChanged()
+    }
+    fun clear() {
+        orders.clear()
         notifyDataSetChanged()
     }
 
@@ -66,9 +71,8 @@ class OrdersAdapter(
 
             }
 
-            when (order.status_name) {
-
-                Status.Placed.toString() -> {
+            when (order.order_status) {
+                OrderStatus(StatusType.Placed.id, StatusType.Placed.type) -> {
                     binding.btnStatus.text =
                         ContextCompat.getString(binding.root.context, R.string.str_order_placed)
                     binding.btnStatus.setTextColor(
@@ -90,7 +94,7 @@ class OrdersAdapter(
                     binding.txtCreatedByValue.text = order.created_by_type
                 }
 
-                Status.ARRIVED.toString() -> {
+                OrderStatus(StatusType.Arrived.id, StatusType.Arrived.type) -> {
                     binding.btnStatus.text =
                         ContextCompat.getString(binding.root.context, R.string.str_arrived)
                     binding.btnStatus.setTextColor(
@@ -113,122 +117,122 @@ class OrdersAdapter(
 
                 }
 
-                Status.GRNPENDING.toString() -> {
-                    binding.btnStatus.text =
-                        ContextCompat.getString(binding.root.context, R.string.str_grn_pending)
-                    binding.btnStatus.setTextColor(
-                        ContextCompat.getColor(
-                            binding.root.context,
-                            R.color.white
-                        )
-                    )
-                    binding.btnStatus.setCompoundDrawablesWithIntrinsicBounds(
-                        R.drawable.ic_grn_pending,
-                        0,
-                        0,
-                        0
-                    )
-                    binding.btnStatus.background = ContextCompat.getDrawable(
-                        binding.root.context,
-                        R.drawable.bg_grn_pending
-                    )
-                    binding.txtCreatedByValue.text = order.created_by_type
+//                OrderStatus(StatusType.GRNPENDING.id, StatusType.GRNPENDING.type) -> {
+//                    binding.btnStatus.text =
+//                        ContextCompat.getString(binding.root.context, R.string.str_grn_pending)
+//                    binding.btnStatus.setTextColor(
+//                        ContextCompat.getColor(
+//                            binding.root.context,
+//                            R.color.white
+//                        )
+//                    )
+//                    binding.btnStatus.setCompoundDrawablesWithIntrinsicBounds(
+//                        R.drawable.ic_grn_pending,
+//                        0,
+//                        0,
+//                        0
+//                    )
+//                    binding.btnStatus.background = ContextCompat.getDrawable(
+//                        binding.root.context,
+//                        R.drawable.bg_grn_pending
+//                    )
+//                    binding.txtCreatedByValue.text = order.created_by_type
+//
+//                }
 
-                }
+//                Status.GRNINPROCESS.toString() -> {
+//                    binding.btnStatus.text =
+//                        ContextCompat.getString(binding.root.context, R.string.str_grn_in_process)
+//                    binding.btnStatus.setTextColor(
+//                        ContextCompat.getColor(
+//                            binding.root.context,
+//                            R.color.clr_text_grn_in_process
+//                        )
+//                    )
+//                    binding.btnStatus.setCompoundDrawablesWithIntrinsicBounds(
+//                        R.drawable.ic_grn_in_process,
+//                        0,
+//                        0,
+//                        0
+//                    )
+//                    binding.btnStatus.background = ContextCompat.getDrawable(
+//                        binding.root.context,
+//                        R.drawable.bg_grn_in_process
+//                    )
+//                    binding.txtCreatedByValue.text = order.created_by_type
+//
+//                }
 
-                Status.GRNINPROCESS.toString() -> {
-                    binding.btnStatus.text =
-                        ContextCompat.getString(binding.root.context, R.string.str_grn_in_process)
-                    binding.btnStatus.setTextColor(
-                        ContextCompat.getColor(
-                            binding.root.context,
-                            R.color.clr_text_grn_in_process
-                        )
-                    )
-                    binding.btnStatus.setCompoundDrawablesWithIntrinsicBounds(
-                        R.drawable.ic_grn_in_process,
-                        0,
-                        0,
-                        0
-                    )
-                    binding.btnStatus.background = ContextCompat.getDrawable(
-                        binding.root.context,
-                        R.drawable.bg_grn_in_process
-                    )
-                    binding.txtCreatedByValue.text = order.created_by_type
+//                Status.GRNCOMPLETED.toString() -> {
+//                    binding.btnStatus.text =
+//                        ContextCompat.getString(binding.root.context, R.string.str_grn_completed)
+//                    binding.btnStatus.setTextColor(
+//                        ContextCompat.getColor(
+//                            binding.root.context,
+//                            R.color.white
+//                        )
+//                    )
+//                    binding.btnStatus.setCompoundDrawablesWithIntrinsicBounds(
+//                        R.drawable.ic_check_white,
+//                        0,
+//                        0,
+//                        0
+//                    )
+//                    binding.btnStatus.background = ContextCompat.getDrawable(
+//                        binding.root.context,
+//                        R.drawable.bg_grn_completed
+//                    )
+//                    binding.txtCreatedByValue.text = order.created_by_type
+//
+//                }
 
-                }
+//                Status.QCPENDING.toString() -> {
+//                    binding.btnStatus.text =
+//                        ContextCompat.getString(binding.root.context, R.string.str_qc_pending)
+//                    binding.btnStatus.setTextColor(
+//                        ContextCompat.getColor(
+//                            binding.root.context,
+//                            R.color.white
+//                        )
+//                    )
+//                    binding.btnStatus.setCompoundDrawablesWithIntrinsicBounds(
+//                        R.drawable.ic_grn_pending,
+//                        0,
+//                        0,
+//                        0
+//                    )
+//                    binding.btnStatus.background = ContextCompat.getDrawable(
+//                        binding.root.context,
+//                        R.drawable.bg_qc_pending
+//                    )
+//                    binding.txtCreatedByValue.text = order.created_by_type
+//
+//                }
 
-                Status.GRNCOMPLETED.toString() -> {
-                    binding.btnStatus.text =
-                        ContextCompat.getString(binding.root.context, R.string.str_grn_completed)
-                    binding.btnStatus.setTextColor(
-                        ContextCompat.getColor(
-                            binding.root.context,
-                            R.color.white
-                        )
-                    )
-                    binding.btnStatus.setCompoundDrawablesWithIntrinsicBounds(
-                        R.drawable.ic_check_white,
-                        0,
-                        0,
-                        0
-                    )
-                    binding.btnStatus.background = ContextCompat.getDrawable(
-                        binding.root.context,
-                        R.drawable.bg_grn_completed
-                    )
-                    binding.txtCreatedByValue.text = order.created_by_type
+//                Status.QCINPROCESS.toString() -> {
+//                    binding.btnStatus.text =
+//                        ContextCompat.getString(binding.root.context, R.string.str_qc_in_process)
+//                    binding.btnStatus.setTextColor(
+//                        ContextCompat.getColor(
+//                            binding.root.context,
+//                            R.color.clr_text_qc_in_process
+//                        )
+//                    )
+//                    binding.btnStatus.setCompoundDrawablesWithIntrinsicBounds(
+//                        R.drawable.ic_process,
+//                        0,
+//                        0,
+//                        0
+//                    )
+//                    binding.btnStatus.background = ContextCompat.getDrawable(
+//                        binding.root.context,
+//                        R.drawable.bg_qc_process
+//                    )
+//                    binding.txtCreatedByValue.text = order.created_by_type
+//
+//                }
 
-                }
-
-                Status.QCPENDING.toString() -> {
-                    binding.btnStatus.text =
-                        ContextCompat.getString(binding.root.context, R.string.str_qc_pending)
-                    binding.btnStatus.setTextColor(
-                        ContextCompat.getColor(
-                            binding.root.context,
-                            R.color.white
-                        )
-                    )
-                    binding.btnStatus.setCompoundDrawablesWithIntrinsicBounds(
-                        R.drawable.ic_grn_pending,
-                        0,
-                        0,
-                        0
-                    )
-                    binding.btnStatus.background = ContextCompat.getDrawable(
-                        binding.root.context,
-                        R.drawable.bg_qc_pending
-                    )
-                    binding.txtCreatedByValue.text = order.created_by_type
-
-                }
-
-                Status.QCINPROCESS.toString() -> {
-                    binding.btnStatus.text =
-                        ContextCompat.getString(binding.root.context, R.string.str_qc_in_process)
-                    binding.btnStatus.setTextColor(
-                        ContextCompat.getColor(
-                            binding.root.context,
-                            R.color.clr_text_qc_in_process
-                        )
-                    )
-                    binding.btnStatus.setCompoundDrawablesWithIntrinsicBounds(
-                        R.drawable.ic_process,
-                        0,
-                        0,
-                        0
-                    )
-                    binding.btnStatus.background = ContextCompat.getDrawable(
-                        binding.root.context,
-                        R.drawable.bg_qc_process
-                    )
-                    binding.txtCreatedByValue.text = order.created_by_type
-
-                }
-
-                Status.QCCOMPLETED.toString() -> {
+                OrderStatus(StatusType.QC_Completed.id, StatusType.QC_Completed.type) -> {
                     binding.btnStatus.text =
                         ContextCompat.getString(binding.root.context, R.string.str_qc_completed)
                     binding.btnStatus.setTextColor(
@@ -250,53 +254,56 @@ class OrdersAdapter(
                     binding.txtCreatedByValue.text = order.created_by_type
                 }
 
-                Status.PUTAWAYPENDING.toString() -> {
-                    binding.btnStatus.text =
-                        ContextCompat.getString(binding.root.context, R.string.str_putaway_pending)
-                    binding.btnStatus.setTextColor(
-                        ContextCompat.getColor(
-                            binding.root.context,
-                            R.color.white
-                        )
-                    )
-                    binding.btnStatus.setCompoundDrawablesWithIntrinsicBounds(
-                        R.drawable.ic_grn_pending,
-                        0,
-                        0,
-                        0
-                    )
-                    binding.btnStatus.background = ContextCompat.getDrawable(
-                        binding.root.context,
-                        R.drawable.bg_qc_pending
-                    )
-                    binding.txtCreatedByValue.text = order.created_by_type
-                }
+//                Status.PUTAWAYPENDING.toString() -> {
+//                    binding.btnStatus.text =
+//                        ContextCompat.getString(binding.root.context, R.string.str_putaway_pending)
+//                    binding.btnStatus.setTextColor(
+//                        ContextCompat.getColor(
+//                            binding.root.context,
+//                            R.color.white
+//                        )
+//                    )
+//                    binding.btnStatus.setCompoundDrawablesWithIntrinsicBounds(
+//                        R.drawable.ic_grn_pending,
+//                        0,
+//                        0,
+//                        0
+//                    )
+//                    binding.btnStatus.background = ContextCompat.getDrawable(
+//                        binding.root.context,
+//                        R.drawable.bg_qc_pending
+//                    )
+//                    binding.txtCreatedByValue.text = order.created_by_type
+//                }
 
-                Status.PUTAWAYINPROCESS.toString() -> {
-                    binding.btnStatus.text = ContextCompat.getString(
-                        binding.root.context,
-                        R.string.str_putaway_in_process
-                    )
-                    binding.btnStatus.setTextColor(
-                        ContextCompat.getColor(
-                            binding.root.context,
-                            R.color.clr_text_qc_in_process
-                        )
-                    )
-                    binding.btnStatus.setCompoundDrawablesWithIntrinsicBounds(
-                        R.drawable.ic_process,
-                        0,
-                        0,
-                        0
-                    )
-                    binding.btnStatus.background = ContextCompat.getDrawable(
-                        binding.root.context,
-                        R.drawable.bg_puyayay_in_process
-                    )
-                    binding.txtCreatedByValue.text = order.created_by_type
-                }
+//                Status.PUTAWAYINPROCESS.toString() -> {
+//                    binding.btnStatus.text = ContextCompat.getString(
+//                        binding.root.context,
+//                        R.string.str_putaway_in_process
+//                    )
+//                    binding.btnStatus.setTextColor(
+//                        ContextCompat.getColor(
+//                            binding.root.context,
+//                            R.color.clr_text_qc_in_process
+//                        )
+//                    )
+//                    binding.btnStatus.setCompoundDrawablesWithIntrinsicBounds(
+//                        R.drawable.ic_process,
+//                        0,
+//                        0,
+//                        0
+//                    )
+//                    binding.btnStatus.background = ContextCompat.getDrawable(
+//                        binding.root.context,
+//                        R.drawable.bg_puyayay_in_process
+//                    )
+//                    binding.txtCreatedByValue.text = order.created_by_type
+//                }
 
-                Status.PUTAWAYCOMPLETED.toString() -> {
+                OrderStatus(
+                    StatusType.Put_Away_Completed.id,
+                    StatusType.Put_Away_Completed.type
+                ) -> {
                     binding.btnStatus.text = ContextCompat.getString(
                         binding.root.context,
                         R.string.str_putaway_completed
@@ -320,53 +327,53 @@ class OrdersAdapter(
                     binding.txtCreatedByValue.text = order.created_by_type
                 }
 
-                Status.DISPATCHCOMPLETED.toString() -> {
-                    binding.btnStatus.text = ContextCompat.getString(
-                        binding.root.context,
-                        R.string.str_dispatch_completed
-                    )
-                    binding.btnStatus.setTextColor(
-                        ContextCompat.getColor(
-                            binding.root.context,
-                            R.color.white
-                        )
-                    )
-                    binding.btnStatus.setCompoundDrawablesWithIntrinsicBounds(
-                        R.drawable.ic_check_white,
-                        0,
-                        0,
-                        0
-                    )
-                    binding.btnStatus.background = ContextCompat.getDrawable(
-                        binding.root.context,
-                        R.drawable.bg_qc_completed
-                    )
-                    binding.txtCreatedByValue.text = order.created_by_type
-                }
+//                Status.DISPATCHCOMPLETED.toString() -> {
+//                    binding.btnStatus.text = ContextCompat.getString(
+//                        binding.root.context,
+//                        R.string.str_dispatch_completed
+//                    )
+//                    binding.btnStatus.setTextColor(
+//                        ContextCompat.getColor(
+//                            binding.root.context,
+//                            R.color.white
+//                        )
+//                    )
+//                    binding.btnStatus.setCompoundDrawablesWithIntrinsicBounds(
+//                        R.drawable.ic_check_white,
+//                        0,
+//                        0,
+//                        0
+//                    )
+//                    binding.btnStatus.background = ContextCompat.getDrawable(
+//                        binding.root.context,
+//                        R.drawable.bg_qc_completed
+//                    )
+//                    binding.txtCreatedByValue.text = order.created_by_type
+//                }
 
-                Status.RETURN.toString() -> {
-                    binding.btnStatus.text =
-                        ContextCompat.getString(binding.root.context, R.string.str_return)
-                    binding.btnStatus.setTextColor(
-                        ContextCompat.getColor(
-                            binding.root.context,
-                            R.color.clr_text_return
-                        )
-                    )
-                    binding.btnStatus.setCompoundDrawablesWithIntrinsicBounds(
-                        R.drawable.ic_return,
-                        0,
-                        0,
-                        0
-                    )
-                    binding.btnStatus.background = ContextCompat.getDrawable(
-                        binding.root.context,
-                        R.drawable.bg_return
-                    )
-                    binding.txtCreatedByValue.text = order.created_by_type
-                }
+//                Status.RETURN.toString() -> {
+//                    binding.btnStatus.text =
+//                        ContextCompat.getString(binding.root.context, R.string.str_return)
+//                    binding.btnStatus.setTextColor(
+//                        ContextCompat.getColor(
+//                            binding.root.context,
+//                            R.color.clr_text_return
+//                        )
+//                    )
+//                    binding.btnStatus.setCompoundDrawablesWithIntrinsicBounds(
+//                        R.drawable.ic_return,
+//                        0,
+//                        0,
+//                        0
+//                    )
+//                    binding.btnStatus.background = ContextCompat.getDrawable(
+//                        binding.root.context,
+//                        R.drawable.bg_return
+//                    )
+//                    binding.txtCreatedByValue.text = order.created_by_type
+//                }
 
-                Status.RETURNORDER.toString() -> {
+                OrderStatus(StatusType.RETURNORDER.id, StatusType.RETURNORDER.type) -> {
                     binding.btnStatus.text =
                         ContextCompat.getString(binding.root.context, R.string.str_return_order)
                     binding.btnStatus.setTextColor(
@@ -388,7 +395,7 @@ class OrdersAdapter(
                     binding.txtCreatedByValue.text = order.created_by_type
                 }
 
-                Status.MANIFEST.toString() -> {
+                OrderStatus(StatusType.MANIFEST.id, StatusType.MANIFEST.type) -> {
                     binding.btnStatus.text =
                         ContextCompat.getString(binding.root.context, R.string.str_manifest)
                     binding.btnStatus.setTextColor(
@@ -410,29 +417,29 @@ class OrdersAdapter(
                     binding.txtCreatedByValue.text = order.created_by_type
                 }
 
-                Status.DISPATCH.toString() -> {
-                    binding.btnStatus.text =
-                        ContextCompat.getString(binding.root.context, R.string.str_dispatch)
-                    binding.btnStatus.setTextColor(
-                        ContextCompat.getColor(
-                            binding.root.context,
-                            R.color.clr_text_manifest
-                        )
-                    )
-                    binding.btnStatus.setCompoundDrawablesWithIntrinsicBounds(
-                        R.drawable.ic_process,
-                        0,
-                        0,
-                        0
-                    )
-                    binding.btnStatus.background = ContextCompat.getDrawable(
-                        binding.root.context,
-                        R.drawable.bg_manifest
-                    )
-                    binding.txtCreatedByValue.text = order.created_by_type
-                }
+//                Status.DISPATCH.toString() -> {
+//                    binding.btnStatus.text =
+//                        ContextCompat.getString(binding.root.context, R.string.str_dispatch)
+//                    binding.btnStatus.setTextColor(
+//                        ContextCompat.getColor(
+//                            binding.root.context,
+//                            R.color.clr_text_manifest
+//                        )
+//                    )
+//                    binding.btnStatus.setCompoundDrawablesWithIntrinsicBounds(
+//                        R.drawable.ic_process,
+//                        0,
+//                        0,
+//                        0
+//                    )
+//                    binding.btnStatus.background = ContextCompat.getDrawable(
+//                        binding.root.context,
+//                        R.drawable.bg_manifest
+//                    )
+//                    binding.txtCreatedByValue.text = order.created_by_type
+//                }
 
-                Status.PICKING.toString() -> {
+                OrderStatus(StatusType.PICKING.id, StatusType.PICKING.type) -> {
                     binding.btnStatus.text =
                         ContextCompat.getString(binding.root.context, R.string.str_picking)
                     binding.btnStatus.setTextColor(
@@ -454,7 +461,7 @@ class OrdersAdapter(
                     binding.txtCreatedByValue.text = order.created_by_type
                 }
 
-                Status.PICKINGCOMPLETED.toString() -> {
+                OrderStatus(StatusType.PICKINGCOMPLETED.id, StatusType.PICKINGCOMPLETED.type) -> {
                     binding.btnStatus.text = ContextCompat.getString(
                         binding.root.context,
                         R.string.str_picking_completed
@@ -478,7 +485,7 @@ class OrdersAdapter(
                     binding.txtCreatedByValue.text = order.created_by_type
                 }
 
-                Status.RETURNCOMPLETED.toString() -> {
+                OrderStatus(StatusType.RETURNCOMPLETED.id, StatusType.RETURNCOMPLETED.type) -> {
                     binding.btnStatus.text =
                         ContextCompat.getString(binding.root.context, R.string.str_return_completed)
                     binding.btnStatus.setTextColor(

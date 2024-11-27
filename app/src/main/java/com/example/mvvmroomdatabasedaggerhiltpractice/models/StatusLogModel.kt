@@ -28,5 +28,5 @@ enum class Status {
     DISPATCH,
     PICKING,
     PICKINGCOMPLETED,
-    RETURNCOMPLETED
+    ReturnCompleted
 }

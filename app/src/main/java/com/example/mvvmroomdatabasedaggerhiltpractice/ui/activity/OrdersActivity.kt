@@ -8,11 +8,10 @@ import com.example.mvvmroomdatabasedaggerhiltpractice.R
 import com.example.mvvmroomdatabasedaggerhiltpractice.adapters.OrdersAdapter
 import com.example.mvvmroomdatabasedaggerhiltpractice.databinding.ActivityOrdersBinding
 import com.example.mvvmroomdatabasedaggerhiltpractice.models.requests.OrderRequest
-import com.example.mvvmroomdatabasedaggerhiltpractice.models.responses.orderresponse.CustomerDetails
 import com.example.mvvmroomdatabasedaggerhiltpractice.models.responses.orderresponse.Order
-import com.example.mvvmroomdatabasedaggerhiltpractice.models.responses.orderresponse.OrderStatus
 import com.example.mvvmroomdatabasedaggerhiltpractice.networking.Resource
 import com.example.mvvmroomdatabasedaggerhiltpractice.ui.base.BaseActivity
+import com.example.mvvmroomdatabasedaggerhiltpractice.utils.EndlessRecyclerViewScrollListener
 import com.example.mvvmroomdatabasedaggerhiltpractice.viewmodels.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -21,35 +20,61 @@ class OrdersActivity : BaseActivity<ActivityOrdersBinding>() {
 
     private val viewModel: MainViewModel by viewModels()
     private lateinit var adapter: OrdersAdapter
-    private var currentPage = 1
+    private lateinit var layoutManager: LinearLayoutManager
+    private lateinit var scrollListener: EndlessRecyclerViewScrollListener
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-
         setToolbar(getString(R.string.str_orders))
-      //  setupRecyclerViewOrders()
-    //    observeData()
 
+        binding.swOrder.setOnRefreshListener {
+            binding.swOrder.isRefreshing = false
+        }
+
+        layoutManager = LinearLayoutManager(this)
+        setupRecyclerViewOrders()
+
+        viewModel.orders.observe(this) {
+            when (it) {
+                is Resource.Loading -> {
+                    if (viewModel.isFirstPage) {
+                        showProgressDialog()
+                    }
+
+                }
+
+                is Resource.Success -> {
+                    dismissProgressDialog()
+                    adapter.updateOrders(it.data!!.data)
+
+                }
+
+                is Resource.Failure -> {
+                    dismissProgressDialog()
+                    it.message.toString()
+
+                }
+            }
+
+        }
 
     }
 
     override fun inflateBinding() = ActivityOrdersBinding.inflate(layoutInflater)
 
     override fun bindViewData() {
-        setupRecyclerViewOrders()
     }
 
     private fun setupRecyclerViewOrders() {
-        adapter = OrdersAdapter(orders = mutableListOf(), onEditClick = {
+        binding.rcOrders.setHasFixedSize(true)
+        binding.rcOrders.layoutManager = LinearLayoutManager(this)
+        adapter = OrdersAdapter(orders = arrayListOf(), onEditClick = {
             openEditOrderActivity(order = it)
         }, onViewClick = {
             openViewOrderActivity(order = it)
         })
-        binding.rcOrders.layoutManager = LinearLayoutManager(this)
         binding.rcOrders.adapter = adapter
-
     }
 
     private fun openViewOrderActivity(order: Order) {
@@ -73,134 +98,10 @@ class OrdersActivity : BaseActivity<ActivityOrdersBinding>() {
     }
 
     override fun observeData() {
-        viewModel.orders.observe(this) {
-            when (it) {
-                is Resource.Loading -> {
-                    showProgressDialog()
-                }
-
-                is Resource.Success -> {
-                    dismissProgressDialog()
-                    adapter.updateOrders(it.data!!.data)
-                }
-
-                is Resource.Failure -> {
-                    dismissProgressDialog()
-                    it.message.toString()
-
-                }
-            }
-
-        }
         viewModel.fetchOrders(
             orderRequest = OrderRequest("450", "", "", "", "", "", "1")
         )
 
-
     }
 
-    private fun addData(): MutableList<Order> {
-        return arrayListOf(
-            Order(
-                "dfsfsf",
-                customer_details = CustomerDetails("dasdad", "dad", 7997),
-                432432,
-                "sfsfdsf",
-                "ffsdf",
-                "dsdad",
-                42342,
-                12 / 12 / 24,
-                "sdad",
-                order_status = OrderStatus(4242, "mqdh"),
-                "dsad",
-                "dddas",
-                2,
-                "sSSA",
-                "SAs"
-            ), Order(
-                "dfsfsf",
-                customer_details = CustomerDetails("dasdad", "dad", 7997),
-                432432,
-                "sfsfdsf",
-                "ffsdf",
-                "dsdad",
-                42342,
-                12 / 12 / 24,
-                "sdad",
-                order_status = OrderStatus(4242, "mqdh"),
-                "dsad",
-                "dddas",
-                2,
-                "sSSA",
-                "SAs"
-            ), Order(
-                "dfsfsf",
-                customer_details = CustomerDetails("dasdad", "dad", 7997),
-                432432,
-                "sfsfdsf",
-                "ffsdf",
-                "dsdad",
-                42342,
-                12 / 12 / 24,
-                "sdad",
-                order_status = OrderStatus(4242, "mqdh"),
-                "dsad",
-                "dddas",
-                2,
-                "sSSA",
-                "SAs"
-            ),
-            Order(
-                "dfsfsf",
-                customer_details = CustomerDetails("dasdad", "dad", 7997),
-                432432,
-                "sfsfdsf",
-                "ffsdf",
-                "dsdad",
-                42342,
-                12 / 12 / 24,
-                "sdad",
-                order_status = OrderStatus(4242, "mqdh"),
-                "dsad",
-                "dddas",
-                2,
-                "sSSA",
-                "SAs"
-            ),
-            Order(
-                "dfsfsf",
-                customer_details = CustomerDetails("dasdad", "dad", 7997),
-                432432,
-                "sfsfdsf",
-                "ffsdf",
-                "dsdad",
-                42342,
-                12 / 12 / 24,
-                "sdad",
-                order_status = OrderStatus(4242, "mqdh"),
-                "dsad",
-                "dddas",
-                2,
-                "sSSA",
-                "SAs"
-            ),
-            Order(
-                "dfsfsf",
-                customer_details = CustomerDetails("dasdad", "dad", 7997),
-                432432,
-                "sfsfdsf",
-                "ffsdf",
-                "dsdad",
-                42342,
-                12 / 12 / 24,
-                "sdad",
-                order_status = OrderStatus(4242, "mqdh"),
-                "dsad",
-                "dddas",
-                2,
-                "sSSA",
-                "SAs"
-            )
-        )
-    }
 }
