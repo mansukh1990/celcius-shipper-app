@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mvvmroomdatabasedaggerhiltpractice.R
+import com.example.mvvmroomdatabasedaggerhiltpractice.adapters.UploadPodAdapter
 import com.example.mvvmroomdatabasedaggerhiltpractice.databinding.ItemLayoutQualityCheckBinding
 import com.example.mvvmroomdatabasedaggerhiltpractice.models.QualityCheckModel
 

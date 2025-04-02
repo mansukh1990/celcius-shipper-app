@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.mvvmroomdatabasedaggerhiltpractice.R
 import com.example.mvvmroomdatabasedaggerhiltpractice.databinding.ItemLayoutGrnBinding
 import com.example.mvvmroomdatabasedaggerhiltpractice.models.GrnModel
-import com.example.shipperinboundorder.adapter.UploadPodAdapter
 
 class GrnAdapter(private val grnList: List<GrnModel>) :
     RecyclerView.Adapter<GrnAdapter.ViewHolder>() {

@@ -38,9 +38,7 @@ class OrdersActivity : BaseActivity<ActivityOrdersBinding>() {
         viewModel.orders.observe(this) {
             when (it) {
                 is Resource.Loading -> {
-                    if (viewModel.isFirstPage) {
-                        showProgressDialog()
-                    }
+                    showProgressDialog("Orders are loading...")
 
                 }
 
@@ -75,6 +73,7 @@ class OrdersActivity : BaseActivity<ActivityOrdersBinding>() {
             openViewOrderActivity(order = it)
         })
         binding.rcOrders.adapter = adapter
+
     }
 
     private fun openViewOrderActivity(order: Order) {

@@ -9,9 +9,9 @@ import okhttp3.Response
 import okio.IOException
 import javax.inject.Inject
 
-class CustomInterceptor @Inject constructor(val application: Application) : Interceptor {
+class CustomInterceptor @Inject constructor(private val application: Application) : Interceptor {
 
-    lateinit var response: Response
+    private lateinit var response: Response
 
     @Inject
     lateinit var sharedPrefManager: SharedPrefManager

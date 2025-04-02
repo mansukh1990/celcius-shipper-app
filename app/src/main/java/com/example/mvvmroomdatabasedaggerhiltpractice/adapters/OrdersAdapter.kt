@@ -35,10 +35,6 @@ class OrdersAdapter(
         orders.addAll(newOrders)
         notifyDataSetChanged()
     }
-    fun clear() {
-        orders.clear()
-        notifyDataSetChanged()
-    }
 
     inner class OrderViewHolder(private val binding: ItemLayoutWarehouseOrdersBinding) :
         RecyclerView.ViewHolder(binding.root) {

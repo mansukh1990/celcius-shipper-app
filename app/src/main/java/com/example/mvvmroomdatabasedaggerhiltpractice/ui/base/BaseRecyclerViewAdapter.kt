@@ -15,7 +15,7 @@ abstract class BaseRecyclerViewAdapter<T : Any, VDB : ViewDataBinding> :
         RecyclerView.ViewHolder(binding.root) {
     }
 
-    var listItems = mutableListOf<T>()
+    private var listItems = mutableListOf<T>()
 
     @SuppressLint("NotifyDataSetChanged")
     fun addList(items: List<T>) {

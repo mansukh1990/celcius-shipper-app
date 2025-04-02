@@ -13,11 +13,11 @@ class SharedPrefManager @Inject constructor(@ApplicationContext context: Context
         context.getSharedPreferences("CelciusLogistics", Context.MODE_PRIVATE)
 
     companion object {
-        const val TOKEN_KEY = "token"
+        const val TOKEN = "token"
     }
 
     fun saveToken(token: String) {
-        sharedPreferences.edit().putString(TOKEN_KEY, token).apply()
+        sharedPreferences.edit().putString(TOKEN, token).apply()
     }
 
     fun isLoggedIn(): Boolean {
@@ -25,10 +25,10 @@ class SharedPrefManager @Inject constructor(@ApplicationContext context: Context
     }
 
     fun getToken(): String? {
-        return sharedPreferences.getString(TOKEN_KEY, null)
+        return sharedPreferences.getString(TOKEN, null)
     }
 
     fun clearToken() {
-        sharedPreferences.edit().remove(TOKEN_KEY).apply()
+        sharedPreferences.edit().remove(TOKEN).apply()
     }
 }

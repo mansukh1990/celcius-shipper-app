@@ -1,4 +1,4 @@
-package com.example.shipperinboundorder.adapter
+package com.example.mvvmroomdatabasedaggerhiltpractice.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

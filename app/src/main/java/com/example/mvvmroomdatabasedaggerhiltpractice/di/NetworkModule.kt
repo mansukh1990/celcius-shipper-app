@@ -47,8 +47,6 @@ object NetworkModule {
             .writeTimeout(60L, TimeUnit.SECONDS)
             .connectTimeout(60L, TimeUnit.SECONDS)
             .build()
-
-
     }
 
     @Provides

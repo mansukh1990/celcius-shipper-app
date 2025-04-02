@@ -11,7 +11,6 @@ import com.example.mvvmroomdatabasedaggerhiltpractice.models.responses.orderresp
 import com.example.mvvmroomdatabasedaggerhiltpractice.networking.Resource
 import com.example.mvvmroomdatabasedaggerhiltpractice.repository.MainRepository
 import com.example.mvvmroomdatabasedaggerhiltpractice.utils.SharedPrefManager
-import com.example.mvvmroomdatabasedaggerhiltpractice.utils.Util.emptyString
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -51,12 +50,6 @@ class MainViewModel @Inject constructor(
 
     private val _orders = MutableLiveData<Resource<OrderResponse>>()
     val orders: LiveData<Resource<OrderResponse>> get() = _orders
-
-    var apiName = emptyString()
-    var baseUrl = emptyString()
-
-    private var limit = "10"
-    var isFirstPage = true
 
     fun fetchOrders(
         orderRequest: OrderRequest
