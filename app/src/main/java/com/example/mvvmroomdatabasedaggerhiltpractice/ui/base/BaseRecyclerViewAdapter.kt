@@ -1,6 +1,5 @@
 package com.example.mvvmroomdatabasedaggerhiltpractice.ui.base
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,7 +16,6 @@ abstract class BaseRecyclerViewAdapter<T : Any, VDB : ViewDataBinding> :
 
     private var listItems = mutableListOf<T>()
 
-    @SuppressLint("NotifyDataSetChanged")
     fun addList(items: List<T>) {
         listItems = items as MutableList<T>
         notifyDataSetChanged()

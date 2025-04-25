@@ -18,7 +18,7 @@ class GenericRecyclerViewAdapter<T : Any, VDB : ViewDataBinding>(
         }
     }
 
-    var listItems = mutableListOf<T>()
+    private var listItems = mutableListOf<T>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GenericViewHolder {
         return GenericViewHolder(

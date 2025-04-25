@@ -67,7 +67,8 @@ class OrdersActivity : BaseActivity<ActivityOrdersBinding>() {
     private fun setupRecyclerViewOrders() {
         binding.rcOrders.setHasFixedSize(true)
         binding.rcOrders.layoutManager = LinearLayoutManager(this)
-        adapter = OrdersAdapter(orders = arrayListOf(), onEditClick = {
+        adapter = OrdersAdapter(orders = arrayListOf(),
+            onEditClick = {
             openEditOrderActivity(order = it)
         }, onViewClick = {
             openViewOrderActivity(order = it)
